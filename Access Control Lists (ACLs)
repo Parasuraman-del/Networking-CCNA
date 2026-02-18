@@ -1,3 +1,7 @@
+1.to give ip route for both routers
+2.DNS - on 20.0.0.2 -A record - HTTP -on
+
+
 R1:
 
 Router>enable
