@@ -1,0 +1,11 @@
+Router>enable
+Router#configure terminal
+Router(config)#interface GigabitEthernet0/0/0
+Router(config-if)#ip address 3.0.0.100 255.0.0.0
+Router(config-if)#no shutdown
+Router(config-if)#exit
+Router(config)#service dhcp
+Router(config)#ip dhcp pool simple
+Router(dhcp-config)#network 3.0.0.0 255.0.0.0
+Router(dhcp-config)#default-router 3.0.0.101
+Router(dhcp-config)#dns-server 1.0.0.1
