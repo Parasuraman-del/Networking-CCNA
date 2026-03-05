@@ -1,0 +1,54 @@
+Static NAT:
+
+Router>en	
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#int gig0/0/0
+Router(config-if)#ip address 10.1.1.100 255.0.0.0
+Router(config-if)#no shutdown
+Router(config-if)#ip nat inside
+Router(config-if)#int gig0/0/1
+Router(config-if)#ip address 200.1.1.100 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#ip nat outside
+Router(config-if)#ex
+Router(config)#ip nat inside source static 10.1.1.1 200.1.1.1
+
+Dynamic NAT:
+
+Router>en
+Router#conf t
+Router(config)#int gig0/0/0
+Router(config-if)#ip address 10.0.0.100 255.0.0.0
+Router(config-if)#no shut
+Router(config-if)#ip nat outside
+Router(config-if)#exit
+Router(config)#int gig0/0/1
+Router(config-if)#ip address 200.0.0.100 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#ip nat inside
+Router(config-if)#exit
+Router(config)#ip nat pool net 200.0.0.25 200.0.0.30 netmask 255.255.255.224
+Router(config)#ip nat inside source list 1 pool net
+Router(config)#access-list 1 permit 192.168.1.1
+Router(config)#access-list 1 permit 192.168.1.2
+Router(config)#access-list 1 permit 192.168.1.3
+
+PAT :
+
+Router>enable
+Router#configure terminal
+Router(config)#int gig0/0/0
+Router(config-if)#ip address 10.1.1.100 255.0.0.0
+Router(config-if)#no shut
+Router(config-if)#ip nat outside
+Router(config-if)#exit
+Router(config)#int gig0/0/1
+Router(config-if)#ip address 200.1.1.100 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#ip nat inside
+Router(config-if)#exit
+Router(config)#ip nat inside source list 1 interface gig0/0/0 overload
+Router(config)#access-list 1 permit 10.1.1.1
+Router(config)#access-list 1 permit 10.1.1.2
+Router(config)#access-list 1 permit 10.1.1.3
